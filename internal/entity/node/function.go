@@ -15,6 +15,11 @@ type Function struct {
 	Location Location
 }
 
+type FunctionInterface interface {
+	Node
+	isMethod() bool
+}
+
 func (f *Function) isMethod() bool {
 	return f.Class != URN("")
 }
