@@ -1,0 +1,31 @@
+# Binários compilados
+*.exe
+*.dll
+*.so
+*.dylib
+/bin/
+/cmd/rhaxis-api/rhaxis-api
+/cmd/rhaxis-load/rhaxis-load
+/cmd/rhaxis-link/rhaxis-link
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Claude Code local settings
+**/.claude/settings.local.json
+
+# Neo4j data volume (quando montado localmente fora do docker volume nomeado)
+neo4j-data/
+
+# Node (golden/*)
+node_modules/
+dist/
+npm-debug.log*
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store

@@ -35,13 +35,21 @@ import (
 	"github.com/BMokarzel/rhaxis-code.git/repository"
 )
 
+// envOr lê uma env var; se ausente/vazia, usa o fallback como default do flag.
+func envOr(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+
 func main() {
 	var (
-		addr = flag.String("addr", ":8080", "HTTP listen address")
-		uri  = flag.String("neo4j-uri", "neo4j://localhost:7687", "Neo4j URI")
-		user = flag.String("neo4j-user", "neo4j", "Neo4j username")
-		pass = flag.String("neo4j-pass", "rhaxis-dev", "Neo4j password")
-		db   = flag.String("neo4j-db", "", "Neo4j database (empty = default)")
+		addr = flag.String("addr", envOr("API_ADDR", ":8080"), "HTTP listen address")
+		uri  = flag.String("neo4j-uri", envOr("NEO4J_URI", "neo4j://localhost:7687"), "Neo4j URI")
+		user = flag.String("neo4j-user", envOr("NEO4J_USER", "neo4j"), "Neo4j username")
+		pass = flag.String("neo4j-pass", envOr("NEO4J_PASS", "rhaxis-dev"), "Neo4j password")
+		db   = flag.String("neo4j-db", envOr("NEO4J_DB", ""), "Neo4j database (empty = default)")
 	)
 	flag.Parse()
 

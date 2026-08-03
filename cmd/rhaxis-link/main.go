@@ -25,12 +25,20 @@ import (
 	neo4jinfra "github.com/BMokarzel/rhaxis-code.git/infra/neo4j"
 )
 
+// envOr lê uma env var; se ausente/vazia, usa o fallback como default do flag.
+func envOr(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+
 func main() {
 	var (
-		uri     = flag.String("neo4j-uri", "neo4j://localhost:7687", "Neo4j URI")
-		user    = flag.String("neo4j-user", "neo4j", "Neo4j username")
-		pass    = flag.String("neo4j-pass", "", "Neo4j password")
-		db      = flag.String("neo4j-db", "", "Neo4j database (empty = default)")
+		uri     = flag.String("neo4j-uri", envOr("NEO4J_URI", "neo4j://localhost:7687"), "Neo4j URI")
+		user    = flag.String("neo4j-user", envOr("NEO4J_USER", "neo4j"), "Neo4j username")
+		pass    = flag.String("neo4j-pass", envOr("NEO4J_PASS", ""), "Neo4j password")
+		db      = flag.String("neo4j-db", envOr("NEO4J_DB", ""), "Neo4j database (empty = default)")
 		timeout = flag.Duration("timeout", 5*time.Minute, "overall operation timeout")
 		verbose = flag.Bool("verbose", false, "print per-call decisions")
 	)
